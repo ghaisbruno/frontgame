@@ -1,20 +1,29 @@
 var s;
 var comida;
 var scl = 20;
+
 function setup() {
-	comida = createVector(random(width), random(height));
 	frameRate(10);
 	createCanvas(400, 400);
 	s = new Snake();
+	pickLocation();
 }
 
 function draw() {
 	background(0);
 	s.update();
 	s.show();
-
 	fill(255, 0, 100);
+	if (s.eat(comida))
+		pickLocation();
 	rect(comida.x, comida.y, scl, scl);
+}
+
+function pickLocation() {
+	var cols = floor(width / scl); //pega a largura e divide pela escala para obter o num de colunas #faço um grid com a escala
+	var rows = floor(height / scl); //pega a altura e divide pela escala para manter o num de linhas
+	comida = createVector(floor(random(cols)), floor(random(rows)));
+	comida.mult(scl);
 }
 
 function keyPressed() {
@@ -33,8 +42,16 @@ function Snake() {
 	this.y = 0;
 	this.velx = 1;
 	this.vely = 0;
+	this.total = 0;
+	this.tail = [];
 
 	this.update = function () { //isso eh um construtor, ou seja, para chamar a funcao update usaremos Snake.update (vide prog orientada a obj)
+		if (this.total === this.tail.length) {
+			for (var i = 0; i < this.tail.length - 1; i++) { //a posição atual da snake vai ser colocada no final sempre, mantendo um historico ([4 segundos,3 segundos,2 segundos,agora])
+				this.tail[i] = this.tail[i + 1]; //defino o atual como sendo o ultimo
+			}
+		}
+		this.tail[this.total - 1] = createVector(this.x, this.y);
 		this.x = this.x + this.velx * scl; //quando usarmos essa this.x seria o equivalente a chamar Snake.x (entao pegaremos o valor de X direto da Classe Snake)
 		this.y = this.y + this.vely * scl;
 
@@ -44,11 +61,23 @@ function Snake() {
 
 	this.show = function () {
 		fill(255);
+		for (var i = 0; i < this.tail.length; i++)
+			rect(this.tail[i].x, this.tail[i].y, scl, scl);
 		rect(this.x, this.y, scl, scl);
 	};
 
-	this.dir = function(x, y) {
+	this.dir = function (x, y) {
 		this.velx = x;
 		this.vely = y;
 	};
+
+	this.eat = function (pos) {
+		var d = dist(this.x, this.y, pos.x, pos.y);
+		if (d < 1) {
+			this.total++;
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
