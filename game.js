@@ -4,9 +4,10 @@ var scl = 20;
 
 function setup() {
 	frameRate(10);
-	createCanvas(400, 400);
+	canvas = createCanvas(400, 400);
 	s = new Snake();
 	pickLocation();
+	canvas.parent('game'); //coloca nosso cenario dentro da div game (HTML)
 }
 
 function draw() {
