@@ -12,11 +12,12 @@ function setup() {
 
 function draw() {
 	background(0);
+	if (s.eat(comida))
+		pickLocation();
+	s.death();
 	s.update();
 	s.show();
 	fill("#d33f49");
-	if (s.eat(comida))
-		pickLocation();
 	rect(comida.x, comida.y, scl, scl);
 	document.getElementById("score").innerHTML = "Score: " + s.total.toString();
 }
@@ -81,5 +82,17 @@ function Snake() {
 		} else {
 			return false;
 		}
-	}
+	};
+
+	this.death = function () {
+		for (var i = 0; i < this.tail.length; i++) {
+			var pos = this.tail[i];
+			var d = dist(this.x, this.y, pos.x, pos.y);
+			if (d < 1) {
+				this.total = 0;
+				this.tail = [];
+				alert("YOU DIED! :(");
+			}
+		}
+	};
 }
