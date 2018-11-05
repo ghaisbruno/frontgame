@@ -13,10 +13,11 @@ function draw() {
 	background(0);
 	s.update();
 	s.show();
-	fill(255, 0, 100);
+	fill("#d33f49");
 	if (s.eat(comida))
 		pickLocation();
 	rect(comida.x, comida.y, scl, scl);
+	document.getElementById("score").innerHTML = "Score: " + s.total.toString();
 }
 
 function pickLocation() {
@@ -60,7 +61,7 @@ function Snake() {
 	};
 
 	this.show = function () {
-		fill(255);
+		fill("#77ba99");
 		for (var i = 0; i < this.tail.length; i++)
 			rect(this.tail[i].x, this.tail[i].y, scl, scl);
 		rect(this.x, this.y, scl, scl);
