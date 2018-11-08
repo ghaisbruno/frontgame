@@ -17,7 +17,7 @@ function draw() {
 	s.death();
 	s.update();
 	s.show();
-	fill("#d33f49");
+	fill("#d33f49");//Red for food
 	rect(comida.x, comida.y, scl, scl);
 	document.getElementById("score").innerHTML = "Score: " + s.total.toString();
 }
@@ -46,6 +46,7 @@ function Snake() {
 	this.velx = 1;
 	this.vely = 0;
 	this.total = 0;
+	this.colour = "#77ba99";
 	this.tail = [];
 
 	this.update = function () { //isso eh um construtor, ou seja, para chamar a funcao update usaremos Snake.update (vide prog orientada a obj)
@@ -57,16 +58,22 @@ function Snake() {
 		this.tail[this.total - 1] = createVector(this.x, this.y);
 		this.x = this.x + this.velx * scl; //quando usarmos essa this.x seria o equivalente a chamar Snake.x (entao pegaremos o valor de X direto da Classe Snake)
 		this.y = this.y + this.vely * scl;
+		
+
 
 		this.x = constrain(this.x, 0, width - scl);
 		this.y = constrain(this.y, 0, height - scl);
 	};
 
 	this.show = function () {
-		fill("#77ba99");
-		for (var i = 0; i < this.tail.length; i++)
+		for (var i = 0; i < this.tail.length; i++) {
+			if(i===0)
+				fill("#416653");
 			rect(this.tail[i].x, this.tail[i].y, scl, scl);
-		rect(this.x, this.y, scl, scl);
+			fill(this.colour);
+		}
+		fill(this.colour);
+		rect(this.x, this.y, scl, scl); //Snake
 	};
 
 	this.dir = function (x, y) {

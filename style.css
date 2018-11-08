@@ -1,0 +1,11 @@
+#game {
+	position: relative;
+	width: 50%;
+	height: 50%;
+	left: 35%;
+}
+
+#score{
+	position: relative;
+	left: 35%;
+}
