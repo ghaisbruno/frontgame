@@ -46,7 +46,8 @@ function Snake() {
 	this.velx = 1;
 	this.vely = 0;
 	this.total = 0;
-	this.colour = "#77ba99";
+	this.colour = "#A2D0B9"; //light green
+	this.headcolour = "#49966F"; //Dark green
 	this.tail = [];
 
 	this.update = function () { //isso eh um construtor, ou seja, para chamar a funcao update usaremos Snake.update (vide prog orientada a obj)
@@ -68,11 +69,11 @@ function Snake() {
 	this.show = function () {
 		for (var i = 0; i < this.tail.length; i++) {
 			if(i===0)
-				fill("#416653");
+				fill(this.colour);
 			rect(this.tail[i].x, this.tail[i].y, scl, scl);
 			fill(this.colour);
 		}
-		fill(this.colour);
+		fill(this.headcolour);
 		rect(this.x, this.y, scl, scl); //Snake
 	};
 
