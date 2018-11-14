@@ -1,0 +1,46 @@
+<html>
+  <head>
+     <meta charset=“UTF-8”>
+     <title>titulo :D</title>
+     <script src="jquery.min.js"></script>
+  </head>
+  <body>
+    <style>
+            #flag{
+                position: relative;
+                width: 50%;
+                height: 50%;
+                top: 30%;
+                left: 30%;
+            }
+            #flagname, #Cflag{
+                position: relative;
+                left: 30%;
+            }
+    </style>
+     <img id="flag" src=jpn.png>
+     <i id="flagname">Japan Flag</i>
+     <button id="Cflag">Change Flag</button>
+     <script>
+            var i = 0;
+            $(document).ready(function(){
+                $("#Cflag").on("click", function() {
+                    changeFlag();
+                    i++;
+                    if(i>1)
+                        i=0;
+                });
+            });
+            function changeFlag(){
+                if(i === 0){
+                    $("#flag").attr("src","jpn.png");
+                }
+                else if(i === 1){
+                    $("#flag").attr("src","ita.png");
+                }
+            }
+    </script>
+  </body>
+</html>
+
+
