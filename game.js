@@ -1,34 +1,46 @@
 var s;
-var comida;
+var food;
 var scl = 20;
 
+/**
+ * Create the canvas in p5 for the game.
+ */
 function setup() {
 	frameRate(10);
 	canvas = createCanvas(400, 400);
 	s = new Snake();
 	pickLocation();
-	canvas.parent('game'); //coloca nosso cenario dentro da div game (HTML)
+	canvas.parent('game');
 }
 
+/**
+ * Draw the snake
+ */
 function draw() {
 	background(0);
-	if (s.eat(comida))
+	if (s.eat(food))
 		pickLocation();
 	s.death();
 	s.update();
 	s.show();
-	fill("#d33f49");//Red for food
-	rect(comida.x, comida.y, scl, scl);
+	fill("#d33f49"); //Red for food (Apples!)
+	rect(food.x, food.y, scl, scl);
 	document.getElementById("score").innerHTML = "Score: " + s.total.toString();
 }
 
+/**
+ * Create a grid to pick a location for the food to spawn
+ */
 function pickLocation() {
-	var cols = floor(width / scl); //pega a largura e divide pela escala para obter o num de colunas #faço um grid com a escala
-	var rows = floor(height / scl); //pega a altura e divide pela escala para manter o num de linhas
-	comida = createVector(floor(random(cols)), floor(random(rows)));
-	comida.mult(scl);
+	var cols = floor(width / scl);
+	var rows = floor(height / scl);
+	food = createVector(floor(random(cols)), floor(random(rows))); //2D array
+	food.mult(scl);
 }
 
+/**
+ * Check which key was pressed
+ */
 function keyPressed() {
 	if (keyCode === UP_ARROW)
 		s.dir(0, -1);
@@ -40,6 +52,9 @@ function keyPressed() {
 		s.dir(-1, 0);
 }
 
+/**
+ * Snake class
+ */
 function Snake() {
 	this.x = 0;
 	this.y = 0;
@@ -50,7 +65,10 @@ function Snake() {
 	this.headcolour = "#49966F"; //Dark green
 	this.tail = [];
 
-	this.update = function () { //isso eh um construtor, ou seja, para chamar a funcao update usaremos Snake.update (vide prog orientada a obj)
+	/**
+	 * Update Snake appending a tail to the end
+	 */
+	this.update = function () {
 		if (this.total === this.tail.length) {
 			for (var i = 0; i < this.tail.length - 1; i++) { //a posição atual da snake vai ser colocada no final sempre, mantendo um historico ([4 segundos,3 segundos,2 segundos,agora])
 				this.tail[i] = this.tail[i + 1]; //defino o atual como sendo o ultimo
@@ -59,7 +77,7 @@ function Snake() {
 		this.tail[this.total - 1] = createVector(this.x, this.y);
 		this.x = this.x + this.velx * scl; //quando usarmos essa this.x seria o equivalente a chamar Snake.x (entao pegaremos o valor de X direto da Classe Snake)
 		this.y = this.y + this.vely * scl;
-		
+
 
 
 		this.x = constrain(this.x, 0, width - scl);
@@ -68,7 +86,7 @@ function Snake() {
 
 	this.show = function () {
 		for (var i = 0; i < this.tail.length; i++) {
-			if(i===0)
+			if (i === 0)
 				fill(this.colour);
 			rect(this.tail[i].x, this.tail[i].y, scl, scl);
 			fill(this.colour);
